@@ -1,40 +1,6 @@
 import streamlit as st
-import pandas as pd
-import os
-from datetime import datetime
 
 st.write("MBTI APP START")
-
-# 결과를 저장 하는 함수를 정의 한다
-
-def save_result(name, mbti):
-
-    file_name = "mbti_results.csv"
-
-    new_data = pd.DataFrame([{
-        "이름": name,
-        "MBTI": mbti,
-        "날짜": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }])
-
-    if os.path.exists(file_name):
-
-        old_data = pd.read_csv(file_name)
-
-        # 같은 이름 제거
-        old_data = old_data[
-            old_data["이름"] != name
-        ]
-
-        data = pd.concat(
-            [old_data, new_data],
-            ignore_index=True
-        )
-
-    else:
-        data = new_data
-
-    data.to_csv(file_name, index=False)
 
 questions = [
     {
@@ -325,18 +291,16 @@ for i, question in enumerate(questions):
 
     answer = st.radio(
         question["text"],
-        ["예", "아니오"],
+        ["선택하세요", "예", "아니오"],
         key=f"q{i}"
     )
 
     answers.append(answer)
 
-# completed = sum(
-#     1 for answer in answers
-#     if answer != "선택하세요"
-# )
-    completed = len(answers)
-
+completed = sum(
+    1 for answer in answers
+    if answer != "선택하세요"
+)
 
 total_questions = len(questions)
 
@@ -354,8 +318,8 @@ st.caption(
 
 if st.button("결과 보기"):
 
-    if not name:
-        st.warning("이름을 입력해주세요.")
+    if completed < total_questions:
+        st.warning("모든 문항에 답변해주세요.")
         st.stop()
 
     e_score = 0
@@ -492,10 +456,6 @@ if st.button("결과 보기"):
 
     mbti = ei + sn + tf + jp
 
-    save_result(name, mbti)
-
-    st.write("결과가 저장되었습니다. 감사합니다.")
-
     st.success(f"{name}님의 MBTI 결과")
 
     # st.header(f"🎉 {mbti}")
@@ -506,27 +466,11 @@ if st.button("결과 보기"):
 
     ### {name}님의 성격 유형
     """
-    )
+)
 
     if mbti in mbti_descriptions:
         st.info(mbti_descriptions[mbti])
     else :
         st.info("해당 MBTI 유형에 대한 설명이 없습니다.")
-
-    if os.path.exists("mbti_results.csv"):
-
-        df = pd.read_csv("mbti_results.csv")
-
-        st.subheader("📋 테스트 기록")
-
-        st.dataframe(df)
-
-        st.subheader("📊 MBTI 분포")
-
-        mbti_count = df["MBTI"].value_counts()
-
-        st.bar_chart(mbti_count)
-
-    
 
         
