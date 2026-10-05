@@ -287,13 +287,13 @@ answers = []
 
 for i, question in enumerate(questions):
 
-    completed = 0
+    # completed = 0
 
-    for answer in answers:
-        if answer != "선택하세요":
-            completed += 1
-    progress = completed / len(questions)
-    st.progress(progress)
+    # for answer in answers:
+    #     if answer != "선택하세요":
+    #         completed += 1
+    # progress = completed / len(questions)
+    # st.progress(progress)
 
     answer = st.radio(
         question["text"],
