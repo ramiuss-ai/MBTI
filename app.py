@@ -33,11 +33,13 @@ def draw_mbti_chart():
             color="steelblue"
         )
 
-        ax.set_title(
-            "현재 MBTI 분포",
-            fontsize=16,
-            fontweight="bold"
-        )
+        # ax.set_title(
+        #     "현재 MBTI 분포",
+        #     fontsize=16,
+        #     fontweight="bold"
+        # )
+
+        st.markdown("### 📊 현재 MBTI 분포")
 
         ax.tick_params(
             axis="x",
