@@ -39,8 +39,6 @@ def draw_mbti_chart():
         #     fontweight="bold"
         # )
 
-        st.markdown("### 📊 현재 MBTI 분포")
-
         ax.tick_params(
             axis="x",
             labelsize=12
