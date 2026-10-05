@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.write("MBTI APP START")
+
 questions = [
     {
         "text": "1. 처음 참석한 모임에서도 모르는 사람에게 먼저 말을 거는 편이다.",
@@ -287,24 +289,38 @@ answers = []
 
 for i, question in enumerate(questions):
 
-    # completed = 0
-
-    # for answer in answers:
-    #     if answer != "선택하세요":
-    #         completed += 1
-    # progress = completed / len(questions)
-    # st.progress(progress)
-
     answer = st.radio(
         question["text"],
-        ["선택하세요","예", "아니오"],
+        ["선택하세요", "예", "아니오"],
         key=f"q{i}"
     )
-    # st.write(question["positive"], answer)
+
     answers.append(answer)
+
+completed = sum(
+    1 for answer in answers
+    if answer != "선택하세요"
+)
+
+total_questions = len(questions)
+
+progress = completed / total_questions
+
+st.subheader("📊 테스트 진행률")
+
+st.progress(progress)
+
+st.caption(
+    f"{completed}/{total_questions} 문항 완료 "
+    f"({progress * 100:.0f}%)"
+)
 # st.write(answers)
 
 if st.button("결과 보기"):
+
+    if completed < total_questions:
+        st.warning("모든 문항에 답변해주세요.")
+        st.stop()
 
     e_score = 0
     i_score = 0
