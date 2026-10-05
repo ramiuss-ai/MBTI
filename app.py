@@ -454,5 +454,7 @@ if st.button("결과 보기"):
 
     if mbti in mbti_descriptions:
         st.info(mbti_descriptions[mbti])
+    else :
+        st.info("해당 MBTI 유형에 대한 설명이 없습니다.")
 
         
